@@ -10,7 +10,7 @@ import { FiHeart } from "react-icons/fi";
 import { AiFillHeart } from "react-icons/ai";
 import axios from "axios";
 
-function MovieDetailsPage({ movie }) {
+function MovieCard({ movie }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [genres, setGenres] = useState({});
 
@@ -45,9 +45,22 @@ function MovieDetailsPage({ movie }) {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
+
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return format(date, "do MMMM, yyyy");
+    if (!dateString) {
+      return "Unknown Release Date";
+    }
+
+    try {
+      const date = new Date(dateString);
+      if (isNaN(date)) {
+        return "Invalid Release Date";
+      }
+      return format(date, "do MMMM, yyyy");
+    } catch (error) {
+      console.error("Error formatting date:", error);
+      return "Invalid Release Date";
+    }
   };
   return (
     <div data-testid="movie-card" id="movies">
@@ -88,4 +101,4 @@ function MovieDetailsPage({ movie }) {
   );
 }
 
-export default MovieDetailsPage;
+export default MovieCard;

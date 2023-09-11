@@ -184,11 +184,42 @@ form button {
   font-size: 18px;
 }
 
-.movie-grid {
+.movie-grid,
+.search-page {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   gap: 20px;
+}
+
+.search-page {
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.searchText {
+  padding-top: 6%;
+  padding-left: 6%;
+  padding-right: 6%;
+  padding-bottom: 0%;
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.search-results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.search-page {
+  margin: 10px;
 }
 
 .movie-card {
@@ -317,6 +348,10 @@ a {
   padding-top: 10%;
   font-size: 34px;
   font-weight: 600;
+}
+
+.search {
+  background-color: #111827;
 }
 
 @media screen and (max-width: 968px) {
