@@ -1,95 +1,121 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+/* eslint-disable jsx-a11y/alt-text */
+"use client";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { FiHeart, FiHeartFill, FiPlay } from "react-icons/fi";
+import { AiFillHeart, AiFillPlayCircle } from "react-icons/ai";
+import axios from "axios";
+import format from "date-fns/format";
+import Navbar from "./components/Navbar";
+import "./globals.css";
+import Image from "next/image";
+import Link from "next/link";
+import MovieCard from "./components/MovieCard";
+import Footer from "./components/Footer";
 
-export default function Home() {
+const Home = () => {
+  const router = useRouter();
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const API_KEY = process.env.NEXT_PUBLIC_MOVIE_DB_API_KEY;
+  const BASE_URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+
+  const fetchMovie = async () => {
+    try {
+      const response = await axios.get(BASE_URL);
+      const movieData = response.data.results;
+      setMovies(movieData.slice(10, 60));
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching movie:", error);
+    }
+  };
+
+  const [topMovies, setTopMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchTopMovies = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`
+        );
+        const data = response.data.results;
+        setTopMovies(data.slice(0, 10));
+      } catch (error) {
+        console.error("Error fetching top-rated movies:", error);
+      }
+    };
+
+    fetchTopMovies();
+  }, []);
+
+  useEffect(() => {
+    fetchMovie();
+  }, []);
+
+  // Get a random movie from the fetched movies
+  const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="main-section">
+      {/* Home Page View */}
+      <div className="banner-cover">
+        {randomMovie && (
+          <div
+            className="banner-single"
+            style={{
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(https://image.tmdb.org/t/p/w1280/${randomMovie.backdrop_path})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              minHeight: "90vh",
+              backgroundColor: "#000",
+            }}
+            key={randomMovie.id}
           >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+            <Navbar />
+            <div className="banner-details">
+              <h2 className="banner-title">{randomMovie.title}</h2>
+              <div className="banner-content">
+                <div className="imdb">
+                  <span className="imbd-btn">
+                    <Image src={require("./assets/imdb.png")} />
+                    <p> {randomMovie.vote_average}</p>
+                  </span>
+                  <span className="imbd-btn-two">
+                    <Image src={require("./assets/rot.png")} />
+                    <p> 97%</p>
+                  </span>
+                </div>
+                <p className="banner-overview">{randomMovie.overview}</p>
+              </div>
+              <div className="banner-btn-section" style={{ zIndex: 20 }}>
+                <Link href="#" className="banner-btn">
+                  <AiFillPlayCircle className="icon" />
+                  Watch TRAILER
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Featured Movies */}
+      <div className="featured">
+        <div className="title">
+          <h2>Featured Movie</h2>
+          <Link href="/">See More </Link>
+        </div>
+        <div className="movie-grid">
+          {topMovies.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
         </div>
       </div>
+      <Footer />
+    </div>
+  );
+};
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
+export default Home;
