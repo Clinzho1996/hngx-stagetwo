@@ -46,21 +46,12 @@ function MovieCard({ movie }) {
     setIsFavorite(!isFavorite);
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) {
-      return "Unknown Release Date";
-    }
-
-    try {
-      const date = new Date(dateString);
-      if (isNaN(date)) {
-        return "Invalid Release Date";
-      }
-      return format(date, "do MMMM, yyyy");
-    } catch (error) {
-      console.error("Error formatting date:", error);
-      return "Invalid Release Date";
-    }
+  const formatDateToUTC = (dateString) => {
+    const date = new Date(dateString);
+    const utcDateString = `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${date.getUTCDate().toString().padStart(2, "0")}`;
+    return utcDateString;
   };
   return (
     <div data-testid="movie-card" id="movies">
@@ -94,7 +85,7 @@ function MovieCard({ movie }) {
           </span>
         </div>
         <p data-testid="movie-release-date" className="release">
-          {`Release Date: ${formatDate(movie.release_date)} `}
+          {`Release Date (UTC): ${formatDateToUTC(movie.release_date)} `}
         </p>
       </Link>
     </div>

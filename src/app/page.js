@@ -2,10 +2,8 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { FiHeart, FiHeartFill, FiPlay } from "react-icons/fi";
 import { AiFillHeart, AiFillPlayCircle } from "react-icons/ai";
 import axios from "axios";
-import format from "date-fns/format";
 import Navbar from "./components/Navbar";
 import "./globals.css";
 import Image from "next/image";
