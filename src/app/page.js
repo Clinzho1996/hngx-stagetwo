@@ -38,7 +38,7 @@ const Home = () => {
     const fetchTopMovies = async () => {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+          `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&language=en-US&page=1`
         );
         const data = response.data.results;
         setTopMovies(data.slice(0, 10));

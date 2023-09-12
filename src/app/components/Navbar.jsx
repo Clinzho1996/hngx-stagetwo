@@ -28,6 +28,9 @@ const Navbar = () => {
 
       // Navigate to the search page
       router.push("/search", { state: value, replace: true });
+
+      // Clear the input field
+      setValue("");
     }
   };
 
