@@ -37,8 +37,9 @@ function MovieDetails({ movie }) {
       </div>
       <div className="movie-details">
         <h2 data-testid="movie-title">{movie.title}</h2>
-        <p data-testid="movie-release-date" className="release">
-          {`Release Date in (UTC): ${formatDateToUTC(movie.release_date)} `}
+        <p className="release">
+          <span data-testid="movie-release-date">Release Date in (UTC):</span>
+          {`${formatDateToUTC(movie.release_date)} `}
         </p>
         <p data-testid="movie-runtime" className="release">
           Runtime (in minutes): {movie.runtime}
