@@ -85,7 +85,7 @@ function MovieCard({ movie }) {
           </span>
         </div>
         <p data-testid="movie-release-date" className="release">
-          {`Release Date (UTC): ${formatDateToUTC(movie.release_date)} `}
+          {`Release Date in (UTC): ${formatDateToUTC(movie.release_date)} `}
         </p>
       </Link>
     </div>
