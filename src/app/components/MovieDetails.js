@@ -1,5 +1,4 @@
 // components/MovieDetails.js
-import Image from "next/image";
 import React from "react";
 import Navbar from "./Navbar";
 import Link from "next/link";
@@ -39,10 +38,10 @@ function MovieDetails({ movie }) {
       <div className="movie-details">
         <h2 data-testid="movie-title">{movie.title}</h2>
         <p data-testid="movie-release-date" className="release">
-          {`Release Date (UTC): ${formatDateToUTC(movie.release_date)} `}
+          {`Release Date in (UTC): ${formatDateToUTC(movie.release_date)} `}
         </p>
         <p data-testid="movie-runtime" className="release">
-          Runtime: {movie.runtime} minutes
+          Runtime (in minutes): {movie.runtime}
         </p>
         <p data-testid="movie-overview">{movie.overview}</p>
       </div>
